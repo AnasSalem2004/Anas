@@ -11,7 +11,15 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        // إضافة استثناءات لمنع خطأ 419 أثناء الاختبار والتصوير
+        $middleware->validateCsrfTokens(except: [
+            'login',
+            'register',
+            'books/*',
+            'books/update/*',
+            'books/delete/*',
+            'logout'
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
